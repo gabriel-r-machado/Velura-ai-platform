@@ -2,6 +2,8 @@
 
 Plataforma de geração de Landing Pages utilizando IA (DeepSeek), construída com **Next.js 14**, **Clean Architecture** e **Supabase**.
 
+![Velura AI Platform Preview](./public/preview.png)
+
 ## 🚀 Como Rodar
 
 ```bash
