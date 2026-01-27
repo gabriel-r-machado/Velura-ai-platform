@@ -7,7 +7,6 @@ import { Eye, Code, Loader2, Download } from 'lucide-react';
 import IframePreview from './IframePreview';
 import { FileTree } from './FileTree';
 import { useSound } from '@/shared/hooks/useSound';
-import { useAuth } from '@/features/auth/contexts/AuthContext';
 import { downloadProjectAsZip } from '@/features/code-generation/utils/downloadUtils';
 import { toast } from '@/shared/hooks/use-toast';
 
@@ -24,17 +23,13 @@ export const PreviewPanel = ({
   showGenerated, 
   generatedCode, 
   currentPrompt, 
-  currentProjectId,
-  onSave,
   isProcessing = false,
 }: PreviewPanelProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
-  const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [showUpdateFlash, setShowUpdateFlash] = useState(false);
   const { play } = useSound();
-  const { user } = useAuth();
 
   // Auto-switch to preview when new code is generated AND on initial mount
   useEffect(() => {
@@ -56,57 +51,6 @@ export const PreviewPanel = ({
   const handleTabChange = (tab: 'preview' | 'code') => {
     play('toggle');
     setActiveTab(tab);
-  };
-
-  const handleSave = async () => {
-    if (!generatedCode || !currentPrompt) {
-      toast({
-        title: "Nothing to save",
-        description: "Generate some code first!",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!user) {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to save projects.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (currentProjectId) {
-      toast({
-        title: "Already saved",
-        description: "Changes are automatically saved to your project.",
-      });
-      return;
-    }
-
-    setIsSaving(true);
-    try {
-      if (onSave) {
-        const siteId = await onSave();
-        if (siteId) {
-          play('success');
-          toast({
-            title: "Project saved! 🎉",
-            description: `Your site has been saved successfully.`,
-          });
-        }
-      }
-    } catch (error) {
-
-      toast({
-        title: "Failed to save",
-        description: error instanceof Error ? error.message : "Unknown error occurred",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSaving(false);
-    }
   };
 
   const handleDownload = async () => {

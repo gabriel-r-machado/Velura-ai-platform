@@ -9,7 +9,7 @@ interface RealtimeDebuggerProps {
 
 export const RealtimeDebugger = ({ projectId }: RealtimeDebuggerProps) => {
   const [status, setStatus] = useState<string>('DISCONNECTED');
-  const [lastMessage, setLastMessage] = useState<any>(null);
+  const [lastMessage, setLastMessage] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [messageCount, setMessageCount] = useState(0);
 
@@ -93,10 +93,10 @@ export const RealtimeDebugger = ({ projectId }: RealtimeDebuggerProps) => {
           <div className="mt-2 p-2 bg-white/10 rounded">
             <div className="text-gray-400 text-[10px]">Last Event:</div>
             <div className="text-[10px] mt-1">
-              <div>Type: {lastMessage.eventType}</div>
-              <div>Role: {lastMessage.new?.role}</div>
-              <div>Content: {lastMessage.new?.content?.substring(0, 30)}...</div>
-              <div>ID: {lastMessage.new?.id?.substring(0, 8)}...</div>
+              <div>Type: {String((lastMessage as Record<string, unknown>).eventType)}</div>
+              <div>Role: {String((((lastMessage as Record<string, unknown>).new as Record<string, unknown>)?.role))}</div>
+              <div>Content: {String((((lastMessage as Record<string, unknown>).new as Record<string, unknown>)?.content)).substring(0, 30)}...</div>
+              <div>ID: {String((((lastMessage as Record<string, unknown>).new as Record<string, unknown>)?.id)).substring(0, 8)}...</div>
             </div>
           </div>
         )}

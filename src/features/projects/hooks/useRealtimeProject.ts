@@ -227,7 +227,7 @@ export const useRealtimeMessages = (projectId: string | null) => {
                 role: newMsg.role as 'user' | 'assistant',
                 content: newMsg.content,
               });
-            } catch (error) {
+            } catch {
               // Ignore errors in unmounted component
             }
           }

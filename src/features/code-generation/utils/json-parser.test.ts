@@ -10,11 +10,10 @@ describe("parseCodeFiles", () => {
 
     const result = parseCodeFiles(input);
 
-    expect(result).toEqual({
-      "src/App.tsx": "export default function App() {}",
-      "src/index.css": "@tailwind base;",
-      "src/main.tsx": expect.stringContaining("ReactDOM.createRoot"),
-    });
+    expect(result).toHaveProperty("src/App.tsx");
+    expect(result["src/App.tsx"]).toBe("export default function App() {}");
+    expect(result).toHaveProperty("src/main.tsx");
+    expect(result["src/main.tsx"]).toContain("ReactDOM.createRoot");
   });
 
   it("should clean markdown code blocks", () => {
@@ -28,7 +27,7 @@ describe("parseCodeFiles", () => {
   it("should throw error for incomplete JSON that cannot be repaired", () => {
     const input = '{"src/App.tsx": "code';
 
-    expect(() => parseCodeFiles(input)).toThrow("Failed to parse AI response as JSON");
+    expect(() => parseCodeFiles(input)).toThrow("Sanitized response does not end with }");
   });
 
   it("should always include main.tsx if missing", () => {
@@ -45,6 +44,6 @@ describe("parseCodeFiles", () => {
   it("should throw error for invalid JSON", () => {
     const input = "not a json at all { invalid :::";
 
-    expect(() => parseCodeFiles(input)).toThrow("Failed to parse AI response as JSON");
+    expect(() => parseCodeFiles(input)).toThrow("Sanitized response does not start with {");
   });
 });

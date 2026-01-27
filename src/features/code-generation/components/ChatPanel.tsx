@@ -132,8 +132,8 @@ export const ChatPanel = ({
           {isThinking && (
             <ProgressIndicator 
               currentStatus={
-                messages.length > 0 && messages[messages.length - 1].role === 'assistant' && messages[messages.length - 1].content.startsWith('✨')
-                  ? messages[messages.length - 1].content.replace('✨ ', '')
+                messages.length > 0 && messages[messages.length - 1]?.role === 'assistant' && messages[messages.length - 1]?.content.startsWith('✨')
+                  ? messages[messages.length - 1]?.content.replace('✨ ', '')
                   : undefined
               }
             />

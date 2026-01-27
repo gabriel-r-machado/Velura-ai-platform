@@ -30,7 +30,7 @@ export const Sidebar = ({ onSelectPrompt, onLoadProject, onNewProject, currentPr
     if (confirm('Are you sure you want to delete this project?')) {
       try {
         await deleteProject(projectId);
-      } catch (error) {
+      } catch {
 
       }
     }

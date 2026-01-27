@@ -62,7 +62,7 @@ export const useProjectActions = () => {
       router.push(`/project/${data.id}`);
       
       return data.id;
-    } catch (error) {
+    } catch {
 
       toast({
         title: "Error creating project",
@@ -109,7 +109,7 @@ export const useProjectActions = () => {
       if (messagesError) throw messagesError;
 
 
-      projectMessages?.forEach(msg => {
+      projectMessages?.forEach(_msg => {
 
       });
 
@@ -133,7 +133,7 @@ export const useProjectActions = () => {
       }
 
       return project;
-    } catch (error) {
+    } catch {
 
       toast({
         title: "Error loading project",
@@ -174,7 +174,7 @@ export const useProjectActions = () => {
     try {
 
       
-      const { data, error } = await supabase.from('project_messages').insert({
+      const { data: _data, error } = await supabase.from('project_messages').insert({
         project_id: currentProjectId,
         role: 'user',
         content: prompt.trim(),
@@ -186,7 +186,7 @@ export const useProjectActions = () => {
       }
       
 
-    } catch (error) {
+    } catch {
 
       // Mensagem já está no store (otimistic), então apenas loga o erro
     }
@@ -281,7 +281,7 @@ export const useProjectActions = () => {
                 } else if (data.type === 'error') {
                   throw new Error(data.error);
                 }
-              } catch (parseError) {
+              } catch {
 
               }
             }
@@ -340,7 +340,7 @@ ${fileList}${moreFiles}
 🎨 Confira o resultado no preview ao lado!`;
 
 
-      const { data: savedMessage, error: messageError } = await supabase
+      const { data: _savedMessage, error: messageError } = await supabase
         .from('project_messages')
         .insert({
           project_id: currentProjectId,
@@ -375,7 +375,7 @@ ${fileList}${moreFiles}
           content: errorContent,
         });
 
-      } catch (saveError) {
+      } catch {
 
         // Fallback: mostrar localmente
         addMessage({
@@ -414,7 +414,7 @@ ${fileList}${moreFiles}
       });
 
       return true;
-    } catch (error) {
+    } catch {
 
       toast({
         title: "Error deleting project",

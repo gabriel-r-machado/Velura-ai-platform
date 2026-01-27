@@ -157,7 +157,6 @@ export function parseCodeFiles(content: string): Record<string, string> {
   
   try {
     const parsed = JSON.parse(sanitized) as Record<string, string>;
-    const fileCount = Object.keys(parsed).length;
 
     
     // Remove index.css if it exists (not needed - we use Tailwind CDN)
@@ -173,7 +172,7 @@ export function parseCodeFiles(content: string): Record<string, string> {
 
     
     return finalFiles;
-  } catch (error) {
+  } catch {
 
 
     
@@ -188,7 +187,7 @@ export function parseCodeFiles(content: string): Record<string, string> {
       }
       
       return ensureEssentialFiles(parsed);
-    } catch (repairError) {
+    } catch {
 
       throw new APIError("Failed to parse AI response. The AI may have returned invalid JSON format. Please try again.");
     }

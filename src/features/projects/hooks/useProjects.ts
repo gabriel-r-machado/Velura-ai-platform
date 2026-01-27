@@ -93,7 +93,7 @@ export function useProjects() {
         content: msg.content,
         created_at: msg.created_at,
       }));
-    } catch (err) {
+    } catch {
 
       return [];
     }
@@ -115,7 +115,7 @@ export function useProjects() {
 
       if (error) throw error;
       return data.id;
-    } catch (err) {
+    } catch {
 
       return null;
     }
@@ -134,9 +134,9 @@ export function useProjects() {
       if (error) throw error;
 
       setProjects((prev) => prev.filter((p) => p.id !== projectId));
-    } catch (err) {
+    } catch {
 
-      throw err;
+      throw new Error('Failed to delete project');
     }
   };
 
@@ -157,9 +157,9 @@ export function useProjects() {
           p.id === projectId ? { ...p, code_content: codeContent } : p
         )
       );
-    } catch (err) {
+    } catch {
 
-      throw err;
+      throw new Error('Failed to update project code');
     }
   };
 
